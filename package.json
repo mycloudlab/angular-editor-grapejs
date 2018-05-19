@@ -1,6 +1,6 @@
 {
   "name": "angular-editor",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "sistema para montagem de interfaces via browser",
   "main": "main.js",
   "repository": "https://github.com/mycloudlab/angular-editor",
