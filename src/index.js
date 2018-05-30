@@ -1,5 +1,4 @@
 import * as grapesjs from 'grapesjs';
-import 'grapesjs/dist/css/grapes.min.css';
 
 //componentes angulares
 import './components/index';
