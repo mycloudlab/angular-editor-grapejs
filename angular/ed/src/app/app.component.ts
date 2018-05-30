@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewContainerRef, ComponentFactoryResolver, Renderer2 } from '@angular/core';
+import { Component, NgZone, OnInit, ViewContainerRef, ChangeDetectorRef, ComponentFactoryResolver, Renderer2 } from '@angular/core';
 
 import * as grapesjs from 'grapesjs';
 
-import { WelcomeComponent } from './welcome/welcome.component';
+import { ComponentFactory } from "./componentfactory.interface"
+import { WelcomeFactory } from './welcome/welcome.factory';
 
 @Component({
   selector: 'app-root',
@@ -14,140 +15,135 @@ export class AppComponent implements OnInit {
   editor: any;
 
   constructor(
+    private zone: NgZone,
     private viewContainerRef: ViewContainerRef,
     private componentFactoryResolver: ComponentFactoryResolver,
     private render: Renderer2
   ) { }
 
-
-
-
   ngOnInit(): void {
-
-
     this.buildPlugin();
-
 
     this.editor = grapesjs.init({
       container: '#gjs',
-      components: '<div class="txt-red">Hello world!</div>',
+      components: '<div class="txt-red">Hello worls</div><app-welcome title="tese"></app-welcome>',
       style: '.txt-red{color: red}',
-      plugins: ['angular-editor-plugin']
+      plugins: ['angular-editor-plugin'],
     });
   }
 
 
   buildPlugin() {
-    let me = this;
+    let angularEnv = this;
 
 
-
-
+    let components: ComponentFactory[] = [new WelcomeFactory()];
 
     grapesjs.plugins.add('angular-editor-plugin', (editor, options) => {
-      var blockManager = editor.BlockManager;
-      var comps = editor.DomComponents;
 
-      var defaultType = comps.getType('default');
-      var defaultModel = defaultType.model;
-      var defaultView = defaultType.view;
 
-      /*
-            editor.TraitManager.addType('title', {
-              events: {
-                'keyup': 'onChange',  // trigger parent onChange method on keyup
-              },
-              getInputEl: function () {
-                if (!this.inputEl) {
-                  this.target.set('title','');
-                  var input = document.createElement('input');
-                  input.value = this.target.get('title');
-                  this.inputEl = input;
-                }
-                return this.inputEl;
-              },
-      
-              onValueChange: function () {
-                console.log(this);
-                this.target.set('title', this.model.get('value'));
-              }
-            });
-      
-      */
+      components.forEach((cf, index) => {
 
-      blockManager.add('painel', {
-        label: 'Heading',
-        content: `
-      <custom-element angular-component-type="modal">
-      </custom-element>`,
-        category: 'custom',
-        attributes: {
-          title: 'Insert h1 block',
-          class: 'fa fa-youtube-play',
-        }
-      });
+        // adiciona ao blockmanager
+        editor.BlockManager.add(cf.name, {
+          label: cf.label,
+          content: `<custom-element  style="display: inline-block" angular-component-type="${cf.name}"></custom-element>`,
+          category: cf.category,
+          attributes: {
+            title: cf.title,
+            class: cf.classIcon,
+          }
+        });
+
+        let defaultModel = editor.DomComponents.getType('default').model;
+        let defaultView = editor.DomComponents.getType('default').view;
 
 
 
-      comps.addType('painel', {
-        model: defaultModel.extend({
+        editor.DomComponents.addType(cf.name, {
+          model: defaultModel.extend({
 
-          toHTML: function () {
-            return '<div> 1 </div>';
-          },
+            // ao destruir o componente na tela remove do contexto do angular também.
+            destroy() {
+              this.em.angular.destroy();
+              defaultModel.prototype.destroy.apply(this, arguments);
+            },
 
-          init() {
-            this.listenTo(this, 'change:title', this.changeTitle);
-          },
+            toHTML: function () {
+              return cf.toHTML(this);
+            },
 
-          changeTitle() {
-            this.view.angular.instance.title = this.attributes.title;
-          },
-
-
-          defaults: Object.assign({}, defaultModel.prototype.defaults, {
-            draggable: 'body *',
-
-            droppable: false,
-            traits: [{
-              type: 'text',
-              label: 'Title',
-              name: 'title',
-              changeProp: 1,
-            }],
-          })
-        }, {
-            isComponent: function (el) {
-              if (el.tagName == 'MODAL' || (el.tagName == 'CUSTOM-ELEMENT' && (el.attributes['angular-component-type'] || { value: '' }).value == 'modal')) {
-                return { type: 'painel' };
+            // init usado para fazer listen das propriedades do componente
+            init() {
+              let self = this;
+              if (cf.model.traits) {
+                cf.model.traits.forEach((trait) => {
+                  if (trait.change) {
+                    self.listenTo(self, 'change:' + trait.name, function () {
+                      angularEnv.zone.run(() => {
+                        trait.change(this.attributes, this.em.angular.instance);
+                      });
+                    });
+                  }
+                })
               }
             },
-          }),
+            defaults: Object.assign({}, defaultModel.prototype.defaults, cf.model),
+          }, {
+              // verifica se é um componente usando função customizada ou usando o componentTag.
+              isComponent: function (el) {
 
-        // Define the View
-        view: defaultType.view.extend({
-          render: function () {
-            defaultType.view.prototype.render.apply(this, arguments);
+                // verifica com o componente customizado
+                if (cf.isComponent) {
+                  if (cf.isComponent(el)) {
+                    return { type: cf.name };
+                  }
+                }
 
-            console.log(this);
+                // verifica com o componentTag
+                if (el.tagName.toUpperCase() == cf.componentTag.toUpperCase() || (el.tagName == 'CUSTOM-ELEMENT' && (el.attributes['angular-component-type'] || { value: '' }).value == cf.name)) {
+                  let cmp = { type: cf.name };
 
-            const componentFactory = me.componentFactoryResolver.resolveComponentFactory(WelcomeComponent);
-            const componentRef = me.viewContainerRef.createComponent(componentFactory);
-            me.render.appendChild(this.el, componentRef.location.nativeElement)
+                  for (let x = 0; x <= el.attributes.length - 1; x++) {
+                    cmp[el.attributes[x].name] = el.attributes[x].value;
+                  }
 
-            this.angular = componentRef;
+                  return cmp;
+                }
 
-            return this;
-          }
-        })
-      });
+              },
+            }),
 
-    });
+          // render view component
+          view: defaultView.extend({
+            render: function () {
+              let self = this;
+              if (self.em.angular) {
+                console.log('destroy');
+                //self.em.angular.destroy();
+              }
+              let args = arguments;
 
+              defaultView.prototype.render.apply(self, arguments);
+              let componentFactory = angularEnv.componentFactoryResolver.resolveComponentFactory(cf.component);
+              let componentRef = angularEnv.viewContainerRef.createComponent(componentFactory);
+              angularEnv.render.appendChild(self.el, componentRef.location.nativeElement);
+              self.em.angular = componentRef;
+              // inicializa os valores dos componentes
+              cf.model.traits.forEach((trait) => {
+                if (trait.change) {
+                  
+                  angularEnv.zone.run(() => {
+                    trait.change(self.model.attributes, self.em.angular.instance);
+                  });
+                }
+              })
 
+              return this;
+            }
+          })
+        });
+      })
+    })
   }
-
-
-
-
 }
