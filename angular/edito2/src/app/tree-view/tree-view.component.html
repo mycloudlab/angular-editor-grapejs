@@ -3,7 +3,7 @@
     <button mat-icon-button disabled></button> 
     
    <span>
-    {{node.component.type.name}} 
+    {{node.component.type.friendlyName}} 
     </span>
     <span class="tools">
     </span>
@@ -17,7 +17,7 @@
     <button mat-icon-button class="action">
       <mat-icon title="delete">delete</mat-icon>
     </button>
-    <span class="count"> 
+    <span class="count" *ngIf="node.component.componentCount!=0"> 
       {{ node.component.componentCount }}
     </span>
     
@@ -32,7 +32,7 @@
     </button>
     
     <span>
-    {{node.component.type.name}} 
+    {{node.component.type.friendlyName}} 
     </span>
     <span class="tools">
     </span>

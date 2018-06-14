@@ -1,5 +1,5 @@
 <div *ngIf="component" class="objectinspector" >
-  <span>{{component.type.name}}</span>
+  <span>{{component.type.friendlyName}}</span>
   <hr>
 
   <mat-form-field *ngFor="let property of component.type.properties">

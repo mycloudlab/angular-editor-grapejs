@@ -6,7 +6,9 @@
   flex: 1 1 auto;
   text-align: center;
 }
-
+.tools>input {
+    border: 1px solid #FFF ;
+}
 
 .container {
     height: 90%;
@@ -26,6 +28,10 @@
 }
 .editor > mat-card {
     margin:auto;
+}
+
+.editor>mat-card {
+    margin-top:0px
 }
 	
 .tree-view {
