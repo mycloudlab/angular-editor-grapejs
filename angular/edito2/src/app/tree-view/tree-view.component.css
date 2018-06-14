@@ -1,0 +1,31 @@
+mat-tree {
+    width:350px
+}
+mat-tree-node:hover .action {
+  display: inline-block;
+}
+.action {
+  display:none;
+}
+.count {
+    color: #999;
+    padding-right: 5px;
+}
+.tools {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.component:hover {
+   background: 	#eadede;
+}
+
+.component-selected {
+    background: #eadede;
+}
+
+
+.component-selected:hover {
+    background: #eadede;
+    /*#FFFAFA*/;
+}

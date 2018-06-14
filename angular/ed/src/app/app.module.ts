@@ -10,12 +10,20 @@ import { RouterModule,Routes } from '@angular/router';
 
 import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatGridListModule, MatCardModule, MatMenuModule } from '@angular/material';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { ContainerComponent } from './container/container.component';
+import { RowComponent } from './row/row.component';
+import { DraggableDirective } from './draggable.directive';
+import { DroppableDirective } from './droppable.directive';
 
 
 @NgModule({
   declarations: [
+    ContainerComponent,
+    DraggableDirective,
+    DroppableDirective,
     AppComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    RowComponent,
   ],
   imports: [
     BrowserModule,

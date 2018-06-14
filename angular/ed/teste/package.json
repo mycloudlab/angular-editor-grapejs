@@ -1,0 +1,12 @@
+{
+  "name": "teste",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "html-parser": "^0.11.0",
+    "htmljs-parser": "^2.3.2",
+    "htmlparser2": "^3.9.2",
+    "parse5": "^5.0.0"
+  }
+}

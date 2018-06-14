@@ -1,0 +1,9 @@
+<div *ngIf="component" class="objectinspector" >
+  <span>{{component.type.name}}</span>
+  <hr>
+
+  <mat-form-field *ngFor="let property of component.type.properties">
+    <input matInput placeholder="{{property.key}}">
+  </mat-form-field>
+
+</div>

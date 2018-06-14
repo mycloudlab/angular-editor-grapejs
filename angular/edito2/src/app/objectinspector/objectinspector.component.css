@@ -1,0 +1,10 @@
+.objectinspector {
+  display:flex;
+  flex-direction: column;
+  width: 280px;
+}
+
+.objectinspector > * {
+  width: 100%;
+  
+}

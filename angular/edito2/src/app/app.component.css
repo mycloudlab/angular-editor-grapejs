@@ -1,0 +1,37 @@
+
+
+.tools {
+  /* This fills the remaining space, by using flexbox. 
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+
+.container {
+    height: 90%;
+    min-height: 90%;
+    display: flex;
+    flex-direction: row;
+}
+
+.box {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+}
+.editor {
+    flex: 1;
+    padding:10px;
+}
+.editor > mat-card {
+    margin:auto;
+}
+	
+.tree-view {
+    width: 350px;
+}
+
+.object-inspector {
+    width: 300px;
+}
