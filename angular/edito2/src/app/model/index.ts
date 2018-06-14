@@ -3,7 +3,9 @@ import { PropertyType, AngularInputPropertyType, BasicInputPropertyType } from '
 export { ComponentType, PropertyType } from "./component-type";
 export { FlatNode } from "./flat-node";
 export { UIComponent } from "./ui-component";
-export {ComponentPallete} from './component-pallete';
+export { ComponentPallete } from './component-pallete';
+export { ComponentFactory } from './component-factory'
+export { ComponentRegistry,ComponentRegistryProperties } from './component-registry';
 
 const components: Array<any> = [];
 
@@ -13,33 +15,13 @@ export class Comp {
     }
 }
 
-interface ComponentRegistryProperties {
-    name: string;
-    group?: string;
-    description?: string;
-    classImage?: string;
-}
-
-
-export function ComponentRegistry(config: ComponentRegistryProperties) {
-    return function (target) {
-        components.push(target);
-    }
-}
 
 export interface Type {
     new ();
 }
 
 
-export interface ComponentFactory {
-    friendlyName: string;
-    elementType: Type;
-    properties: Array<PropertyType>;
-    render(): string;
-    isComponent(data: any): boolean;
-}
-
+/*
 import { MatButton } from '@angular/material'
 import { Form } from '@angular/forms';
 
@@ -66,4 +48,4 @@ export class MatButtonComponentFactory implements ComponentFactory {
         return ""
     }
 
-}
+}*/

@@ -46,7 +46,9 @@ export class ComponentParser {
             onOpenTag: function (event) {
                 let tagName = event.tagName;
                 let attributes = event.attributes;
-                let component = componentPallete.lookupComponent(tagName);
+                let component = new UIComponent();
+                component.type = componentPallete.lookupComponent(tagName);
+
 
                 // fill elements
                 attributes.forEach((element)=> {

@@ -27,9 +27,7 @@ describe('ComponentParser', () => {
     // make a dummy component pallete
     let componentPallete = {
       lookupComponent: function (tag) {
-        let component = new UIComponent();
-        component.type = new DummyComponentFactory(tag);
-        return component;
+        return new DummyComponentFactory(tag);
       }
     };
 
@@ -82,8 +80,7 @@ describe('ComponentParser', () => {
      it('parse angular events',async(() => {
       let html = `<input (click)="search()" >`;
 
-      let object: Array<UIComponent> = [];
-      object =  parser.parse(html, componentPallete);
+      let object: Array<UIComponent> = parser.parse(html, componentPallete);
 
       expect(object[0].properties["(click)"]).toEqual("search()");
     }))
