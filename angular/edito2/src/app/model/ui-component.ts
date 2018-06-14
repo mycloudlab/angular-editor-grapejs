@@ -1,27 +1,27 @@
 import { ViewContainerRef } from "@angular/core"
-import { ComponentType } from ".";
+import { ComponentFactory } from ".";
 
 export class UIComponent {
 
-  type: ComponentType;
+  type: ComponentFactory;
 
   view: ViewContainerRef;
 
-  properties: Array<Map<string, string>> = [];
+  properties: {[key: string]: string} = {};
 
   children: Array<UIComponent> = [];
 
-  get componentCount(){
+  get componentCount() {
 
     let count = 0;
-    this.children.forEach(el=>{
+    this.children.forEach(el => {
       count += el.componentCount;
     })
 
-    count+=this.children.length;
+    count += this.children.length;
 
     return count;
-    
+
   }
 
 }

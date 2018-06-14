@@ -2,7 +2,7 @@ import { Component, NgZone, OnInit, ViewContainerRef, ViewChild, ElementRef, Cha
 
 import { TreeViewComponent } from "./tree-view/tree-view.component";
 
-import { ComponentType, UIComponent, FlatNode, PropertyType } from "./model";
+import {Comp, ComponentType, UIComponent, FlatNode, PropertyType } from "./model";
 
 @Component({
   selector: 'app-root',
@@ -39,6 +39,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    console.log(Comp.components)
     let viewWindow : any = window;
     this.editorWidth = parseInt(viewWindow.document.defaultView.getComputedStyle(this.editor.nativeElement).width.replace('px',''))-10;
 

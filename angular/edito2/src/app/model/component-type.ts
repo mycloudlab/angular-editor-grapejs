@@ -4,16 +4,32 @@ export class ComponentType {
   angularComponentType: any;
   properties: Array<PropertyType> = [];
 
-  constructor(){
+  constructor() {
     let property = new PropertyType();
-    property.key="elementRef";
+    property.key = "elementRef";
     this.properties.push(property);
   }
 
 }
 
 export class PropertyType {
-
   key: string;
+}
 
+export class BasicInputPropertyType extends PropertyType {
+
+  constructor(public key: string) {
+    super();
+  }
+
+  value: string;
+}
+
+export class AngularInputPropertyType extends PropertyType {
+
+  constructor(public key: string) {
+    super();
+  }
+
+  value: string;
 }
