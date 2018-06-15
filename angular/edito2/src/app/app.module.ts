@@ -9,13 +9,15 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { TreeViewComponent } from './tree-view/tree-view.component';
 import { ObjectinspectorComponent } from './objectinspector/objectinspector.component';
 import { ComponentpalleteComponent } from './componentpallete/componentpallete.component';
+import { EditorControlComponent } from './editor-control/editor-control.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TreeViewComponent,
     ObjectinspectorComponent,
-    ComponentpalleteComponent
+    ComponentpalleteComponent,
+    EditorControlComponent
   ],
   imports: [
     BrowserModule,

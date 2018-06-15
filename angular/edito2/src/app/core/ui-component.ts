@@ -1,15 +1,19 @@
 import { ViewContainerRef } from "@angular/core"
-import { ComponentFactory } from ".";
+import { ComponentRegistryMetaData } from "./registry";
 
 export class UIComponent {
 
-  type: ComponentFactory;
+  type: ComponentRegistryMetaData;
 
   view: ViewContainerRef;
 
   properties: {[key: string]: string} = {};
 
   children: Array<UIComponent> = [];
+
+  get propertyKeys(){
+    return Object.keys(this.properties);
+  }
 
   get componentCount() {
 

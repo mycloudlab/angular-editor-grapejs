@@ -4,7 +4,8 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { BehaviorSubject, Observable, of as observableOf } from 'rxjs';
 
-import { ComponentType, UIComponent, FlatNode } from "../model";
+import { ComponentType, FlatNode } from "../model";
+import { UIComponent} from '../core/ui-component';
 
 @Component({
   selector: 'app-tree-view',

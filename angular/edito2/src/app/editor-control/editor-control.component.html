@@ -1,0 +1,15 @@
+<mat-form-field>
+  <mat-select [(ngModel)]="deviceSelected">
+      <mat-option *ngFor="let device of devices" [value]="device">
+          {{ device.name }}
+      </mat-option>
+  </mat-select>
+</mat-form-field>
+
+width: <input size="3" [(ngModel)]="width"> height: <input size="3" [(ngModel)]="height">
+
+
+<button mat-icon-button (click)="rotate()">
+<mat-icon >screen_rotation</mat-icon>
+</button> zoom: <input type="range" min="0" max="100" size="3" [(ngModel)]="zoom"> {{zoom}}
+

@@ -36,6 +36,7 @@
 	
 .tree-view {
     width: 350px;
+    padding:10px;
 }
 
 .object-inspector {

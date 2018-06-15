@@ -1,5 +1,7 @@
 import { Component, OnInit,Input } from '@angular/core';
-import { ComponentType, UIComponent, FlatNode } from "../model";
+import { ComponentType, FlatNode } from "../model";
+import {UIComponent} from '../core/ui-component'
+
 @Component({
   selector: 'app-objectinspector',
   templateUrl: './objectinspector.component.html',

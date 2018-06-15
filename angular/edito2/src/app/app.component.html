@@ -1,27 +1,9 @@
 <div class="header">
     <mat-toolbar color="primary">
-
         <span> Angular Editor</span>
-
-        <!-- This fills the remaining space of the current row -->
         <div class="tools">
-            <mat-form-field>
-                <mat-select [(ngModel)]="deviceSelected">
-                    <mat-option *ngFor="let device of devices" [value]="device">
-                        {{ device.name }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            width: <input size="3" [(ngModel)]="width"> height: <input size="3" [(ngModel)]="height">
-
-
-            <button mat-icon-button (click)="rotate()">
-    <mat-icon >screen_rotation</mat-icon>
-      </button> zoom: <input type="range" min="0" max="100" size="3" [(ngModel)]="zoom"> {{zoom}}
+            <app-editor-control #editorControl [editor]="editorContainer"></app-editor-control>
         </div>
-
-
     </mat-toolbar>
 </div>
 <div class="container">
@@ -29,8 +11,8 @@
         <app-tree-view #tree [components]="components"></app-tree-view>
     </div>
     <div #editorContainer class="box editor">
-        <mat-card #editor [style.zoom]="zoom/100" [style.width]="width" [style.minHeight]="300" [style.height]="height">
-            asdfadf s
+        <mat-card style="padding:0px" [style.zoom]="editorControl.zoom/100" [style.width]="editorControl.width" [style.minHeight]="300" [style.height]="editorControl.height">
+            content
         </mat-card>
     </div>
     <div class="box object-inspector">

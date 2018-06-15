@@ -1,53 +1,73 @@
+<mat-toolbar>
+  <button mat-button>
+    <mat-icon title="add new subcomponent">add</mat-icon>
+    add
+  </button>
+  <span class="tools">
+  </span>
+  <button mat-button>
+      <mat-icon>cloud_upload</mat-icon>
+      load
+    </button>
+    <button mat-button>
+        <mat-icon>save</mat-icon>
+        save
+      </button>
+    </mat-toolbar>
+
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding (click)="selectComponent(node)" [ngClass]="{'component': true, 'component-selected': isSelected(node)}">
-    <button mat-icon-button disabled></button> 
-    
-   <span>
-    {{node.component.type.friendlyName}} 
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding matTreeNodePaddingIndent="10" (click)="selectComponent(node)"
+    [ngClass]="{'component': true, 'component-selected': isSelected(node)}">
+    <button mat-icon-button disabled></button>
+
+    <span>
+      {{node.component.type.friendlyName}}
     </span>
     <span class="tools">
     </span>
-    
+
     <button mat-icon-button class="action">
-      <mat-icon  title="add new subcomponent">add</mat-icon>
+      <mat-icon title="add new subcomponent">add</mat-icon>
     </button>
     <button mat-icon-button class="action">
-      <mat-icon  title="clone component">filter_none</mat-icon>
+      <mat-icon title="clone component">filter_none</mat-icon>
     </button>
-    <button mat-icon-button class="action">
-      <mat-icon title="delete">delete</mat-icon>
+    <button mat-icon-button>
+      <mat-icon title="delete" class="action">delete</mat-icon>
     </button>
-    <span class="count" *ngIf="node.component.componentCount!=0"> 
+    <span class="count" *ngIf="node.component.componentCount!=0">
       {{ node.component.componentCount }}
     </span>
-    
   </mat-tree-node>
 
-  <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding (click)="selectComponent(node)" class="component"
-    [ngClass]="{'component': true, 'component-selected': isSelected(node)}">
+  <mat-tree-node matTreeNodePaddingIndent="10" *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding (click)="selectComponent(node)"
+    class="component" [ngClass]="{'component': true, 'component-selected': isSelected(node)}">
     <button mat-icon-button matTreeNodeToggle>
       <mat-icon class="mat-icon-rtl-mirror">
         {{treeControl.isExpanded(node) ? 'arrow_drop_down' : 'arrow_right'}}
       </mat-icon>
     </button>
-    
+
     <span>
-    {{node.component.type.friendlyName}} 
+      {{node.component.type.friendlyName}}
     </span>
     <span class="tools">
     </span>
-    
+
     <button mat-icon-button class="action">
-      <mat-icon  title="add new subcomponent">add</mat-icon>
+      <mat-icon title="add new subcomponent">add</mat-icon>
     </button>
     <button mat-icon-button class="action">
-      <mat-icon  title="clone component">filter_none</mat-icon>
+      <mat-icon title="clone component">filter_none</mat-icon>
     </button>
-    <button mat-icon-button class="action">
-      <mat-icon title="delete">delete</mat-icon>
+    <button mat-icon-button>
+      <mat-icon title="delete" class="action">delete</mat-icon>
     </button>
-    <span class="count"> 
+
+    <span class="count">
       {{ node.component.componentCount }}
     </span>
+
+
   </mat-tree-node>
 </mat-tree>

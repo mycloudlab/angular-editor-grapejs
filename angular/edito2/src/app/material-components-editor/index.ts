@@ -1,0 +1,1 @@
+export {MatCheckboxFactory } from './mat-checkbox.factory';

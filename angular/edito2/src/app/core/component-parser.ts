@@ -1,4 +1,7 @@
-import { UIComponent,ComponentPallete } from "../model"
+import { UIComponent } from "./ui-component"
+
+import { Registry } from './registry';
+
 import * as parserBuilder from "htmljs-parser";
 
 
@@ -7,32 +10,32 @@ export class ComponentParser {
 
     private parser;
 
-    parse(html: string, componentPallete: ComponentPallete): Array<UIComponent> {
+    parse(html: string): Array<UIComponent> {
         let collector = new Array<UIComponent>();
 
-        let parser = this.buildParser(collector, componentPallete);
-        
+        let parser = this.buildParser(collector);
+
         html = this.workaroundHandleAngularEvents(html);
         parser.parse(html);
 
         return collector;
     }
 
-    private workaroundHandleAngularEvents(html:string){
+    private workaroundHandleAngularEvents(html: string) {
         // this parser does not processing events (click) changed £click£ for parser
         let found = html.match(/ \(([a-z]|[0-9]|[A-Z]|[-_])+\)/gm);
-        
-        found=found||[];
+
+        found = found || [];
 
         let ret = html;
-        found.forEach( text=> {
-            let newProperty = text.replace('(','£').replace(')','£');
+        found.forEach(text => {
+            let newProperty = text.replace('(', '£').replace(')', '£');
             ret = ret.split(text).join(newProperty);
         })
         return ret;
     }
 
-    private buildParser(collector: Array<UIComponent>, componentPallete: ComponentPallete) {
+    private buildParser(collector: Array<UIComponent>) {
         let stack = new Array<UIComponent>();
 
         let parser = parserBuilder.createParser({
@@ -47,25 +50,25 @@ export class ComponentParser {
                 let tagName = event.tagName;
                 let attributes = event.attributes;
                 let component = new UIComponent();
-                component.type = componentPallete.lookupComponent(tagName);
-
+                component.type = Registry.lookupComponent(tagName);
+ 
 
                 // fill elements
-                attributes.forEach((element)=> {
-                    let name = element.name+'';
+                attributes.forEach((element) => {
+                    let name = element.name + '';
 
                     // workaround for handle in this parser for handle angular events 
                     // this parser does not support (click)="search()" parenthesis in 
                     // attribute name
-                    if (name.substring(0,1)== '£' &&name.substring(name.length,name.length-1)== '£'){
-                         name = "("+name.substring(1,name.length-1)+")";
+                    if (name.substring(0, 1) == '£' && name.substring(name.length, name.length - 1) == '£') {
+                        name = "(" + name.substring(1, name.length - 1) + ")";
                     }
-                    
+
                     let value;
                     if (element.value)
-                        value = element.value.substring(1,element.value.length-1);
-                    
-                    
+                        value = element.value.substring(1, element.value.length - 1);
+
+
                     component.properties[name] = value;
                 });
 

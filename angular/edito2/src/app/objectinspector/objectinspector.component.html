@@ -2,8 +2,8 @@
   <span>{{component.type.friendlyName}}</span>
   <hr>
 
-  <mat-form-field *ngFor="let property of component.type.properties">
-    <input matInput placeholder="{{property.key}}">
+  <mat-form-field *ngFor="let property of component.propertyKeys">
+    <input matInput placeholder="{{property}}">
   </mat-form-field>
 
 </div>

@@ -1,6 +1,7 @@
 mat-tree {
-    width:350px;
+    width:345px;
     background-color: #f1f1f1;
+    padding:10px
 }
 mat-tree-node:hover .action {
   display: inline-block;
